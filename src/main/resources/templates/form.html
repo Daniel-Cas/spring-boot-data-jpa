@@ -7,8 +7,14 @@
 <header th:replace="layout/layout :: header"></header>
 <br>
 
-<div class="container">
-    <h1 th:text="${titulo}"  class="text-secondary border border-success border-top-0 border-end-0 border-start-0"></h1>
+<div class="container py-4">
+
+    <div class="card bg-dark text-white">
+        <div class="card-header" th:text="${titulo}"></div>
+
+        <div class="card-body">
+
+
 
     <div   th:object="${cliente}" th:remove="tag">
         <ul th:if="${ #fields.hasErrors('*')  }" class="alert alert-danger">
@@ -58,13 +64,16 @@
 
             <div class="form-group row">
                 <div class="col-sm-6">
-                <input type="submit" value="Crear Cliente" class="btn btn-primary" />
+                <input type="submit" value="Crear Cliente" class="btn btn-secondary" />
                 </div>
             </div>
         </table>
        <input  type="hidden"  th:field="*{id}"/>
     </form>
 </div>
+    </div>
+</div>
+
 
 <footer th:replace="layout/layout :: footer" ></footer>
 
