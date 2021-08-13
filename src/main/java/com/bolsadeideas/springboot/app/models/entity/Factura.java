@@ -12,7 +12,7 @@ public class Factura implements Serializable {
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
-    private Long folio;
+    private Long id;
 
     private String descripcion;
 
@@ -40,11 +40,11 @@ public class Factura implements Serializable {
 
 
     public Long getFolio() {
-        return folio;
+        return id;
     }
 
     public void setFolio(Long folio) {
-        this.folio = folio;
+        this.id = folio;
     }
 
     public String getDescripcion() {

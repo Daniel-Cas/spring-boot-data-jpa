@@ -35,7 +35,7 @@ public class Cliente implements Serializable {
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date createAt;
 
-    @OneToMany( mappedBy = "cliente" ,fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany( mappedBy = "cliente" ,fetch = FetchType.LAZY, cascade = CascadeType.ALL )
     private List<Factura> facturas;
 
     private String foto;
