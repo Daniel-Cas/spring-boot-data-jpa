@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/layout :: head"></head>
+<head th:replace="layout/layout :: head">
+
+
+
+</head>
+<script th:replace="factura/js/autocomplete-productos :: javascript"></script>
 <body>
 
 
@@ -71,7 +76,8 @@
 
 
 <footer th:replace="layout/layout :: footer" ></footer>
-<script th:replace="factura/js/autocomplete-productos :: javascript" ></script>
+
+
 
 
 </body>

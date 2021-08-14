@@ -3,30 +3,33 @@
 
 <body>
 
-<script type="text/javascript" th:fragment="javascript" >
+<script type="text/javascript" th:fragment="javascript">
 
-    $(document).ready( function(){
-        $( "#buscar_producto").autocomplete({
+    $(document).ready(function() {
 
-            source: function (request, response){
-                $.ajax({
-                   url: "/factura/cargar-productos/" + request.term,
-                   dataType: "json",
-                   data: {
-                       term: request.term
-                   } ,
-                    success: function(data){
-                       response($.map( data, function(item){
-                           return {
-                               value: item.id,
-                               label: item.nombre,
-                               precio: item.precio,
-                           }
-                       }));
-                    },
-                });
-            },
-            select: function (event, ui){
+            $("#buscar_producto").autocomplete({
+
+                source : function(request, response) {
+
+                    console.log(request.term);
+                    $.ajax({
+                        url : "/factura/cargar-productos/" + request.term,
+                        dataType : "json",
+                        data : {
+                            term : request.term
+                        },
+                        success : function(data) {
+                            response($.map(data, function(item) {
+                                return {
+                                    value : item.id,
+                                    label : item.nombre,
+                                    precio : item.precio,
+                                };
+                            }));
+                        },
+                    });
+                },
+            select : function (event, ui){
                 $("#buscar_producto").val(ui.item.label);
 
                 return false;
@@ -34,14 +37,7 @@
         });
     }
 
-    );
-
-
-
-
-
-
-
+    )
 </script>
 
 </body>
