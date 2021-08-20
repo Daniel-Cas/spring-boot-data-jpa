@@ -29,4 +29,5 @@ public interface IClienteService {
 	
 	public Factura findFacturaById(Long id);
 
+	public Factura fetchFacturaByIdWithClienteWhitItemFacturaWithProducto(Long id);
 }
