@@ -2,7 +2,6 @@ package com.bolsadeideas.springboot.app;
 
 import com.bolsadeideas.springboot.app.auth.handler.LoginSuccesHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -19,6 +18,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private LoginSuccesHandler successHandler;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     // Seguridad HTTP -> Secure
     @Override
@@ -41,17 +43,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedPage("/error_403");
     }
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+
 
     // Configuracion Global del login Es necesario en BCrypt que es lo que se usa actualmente
     // TODO: revisar que metodos de encriptación son mejores para spring Security
     @Autowired
     public void configurerGlobal( AuthenticationManagerBuilder builder ) throws Exception{
 
-        PasswordEncoder enconder = passwordEncoder();
+        PasswordEncoder enconder = this.passwordEncoder;
         UserBuilder users = User.builder().passwordEncoder(  enconder::encode  );
 
         builder.inMemoryAuthentication()
