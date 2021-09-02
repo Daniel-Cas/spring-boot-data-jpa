@@ -23,7 +23,7 @@
 					<li class="nav-item"><a class="nav-link" th:href="@{/listar}">Clientes</a>
 					</li>
 				</ul>
-				<ul class="navbar-nav ui-corner-right">
+				<ul class="navbar-nav ml-auto">
 					<li sec:authorize="!isAuthenticated()"><a class="btn btn-outline-primary" th:href="@{/login}"> Sign In</a></li>
 					<li sec:authorize="isAuthenticated()" class="dropdown show" >
 						<a class="btn btn-outline-primary dropdown-toggle" href="#"
