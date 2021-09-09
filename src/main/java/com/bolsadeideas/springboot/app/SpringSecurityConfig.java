@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.sql.DataSource;
+
 @EnableGlobalMethodSecurity(securedEnabled = true)
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -21,6 +23,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private DataSource dataSource;
 
     // Seguridad HTTP -> Secure
     @Override
@@ -49,13 +54,21 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     // TODO: revisar que metodos de encriptación son mejores para spring Security
     @Autowired
     public void configurerGlobal( AuthenticationManagerBuilder builder ) throws Exception{
-
-        PasswordEncoder enconder = this.passwordEncoder;
+        builder.jdbcAuthentication()
+                .dataSource(dataSource)
+                .passwordEncoder(passwordEncoder)
+                .usersByUsernameQuery("select username, password, enabled from users where username=?")
+                .authoritiesByUsernameQuery("select u.username, a.authority from authorities a inner join users u on (a.user_id=u.id) where u.username=?");
+        /*PasswordEncoder enconder = this.passwordEncoder;
         UserBuilder users = User.builder().passwordEncoder(  enconder::encode  );
 
         builder.inMemoryAuthentication()
                 .withUser( users.username("admin").password("12345").roles("ADMIN","USER") )
                 .withUser( users.username("daniel").password("12345").roles("USER") );
+
+         */
+
+
     }
 
 

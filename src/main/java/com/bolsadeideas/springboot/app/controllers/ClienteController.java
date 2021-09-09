@@ -100,7 +100,7 @@ public class ClienteController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 		if( auth != null ){
-			logger.info("Utilizando forma estática SecurityContextHolder.getContext().getAuthentication(): Hola usuario autenticado, tu username es: ".concat( authentication.getName() ) );
+			logger.info("Utilizando forma estática SecurityContextHolder.getContext().getAuthentication(): Hola usuario autenticado, tu username es: ".concat( auth.getName() ) );
 		}
 
 		if( hasRole("ROLE_ADMIN")) {
