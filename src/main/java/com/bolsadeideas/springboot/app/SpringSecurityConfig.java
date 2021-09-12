@@ -1,6 +1,7 @@
 package com.bolsadeideas.springboot.app;
 
 import com.bolsadeideas.springboot.app.auth.handler.LoginSuccesHandler;
+import com.bolsadeideas.springboot.app.models.service.JpaUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 
@@ -24,8 +24,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+
     @Autowired
-    private DataSource dataSource;
+    private JpaUserDetailsService userDetailsService;
 
     // Seguridad HTTP -> Secure
     @Override
@@ -54,11 +55,25 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     // TODO: revisar que metodos de encriptación son mejores para spring Security
     @Autowired
     public void configurerGlobal( AuthenticationManagerBuilder builder ) throws Exception{
+
+        //SPRING SECURITY CON JPA => LA MEJOR V:
+        builder.userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder);
+
+
+
+        // ACÁ SE USA SPRING SECURITY CON JDBC
+        /*
         builder.jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(passwordEncoder)
                 .usersByUsernameQuery("select username, password, enabled from users where username=?")
                 .authoritiesByUsernameQuery("select u.username, a.authority from authorities a inner join users u on (a.user_id=u.id) where u.username=?");
+
+
+         */
+
+        // ACÁ SE USA ENCONDER CON SPRING SECURITY
         /*PasswordEncoder enconder = this.passwordEncoder;
         UserBuilder users = User.builder().passwordEncoder(  enconder::encode  );
 
